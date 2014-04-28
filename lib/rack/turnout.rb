@@ -1,7 +1,6 @@
 require 'rack'
 require 'yaml'
 require 'ipaddr'
-require 'nokogiri'
 
 class Rack::Turnout
   def initialize(app, config={})
@@ -97,6 +96,7 @@ class Rack::Turnout
     content = File.open(maintenance_page, 'rb').read
 
     if settings['reason']
+      require 'nokogiri'
       html = Nokogiri::HTML(content)
       html.at_css('#reason').inner_html = Nokogiri::HTML.fragment(settings['reason'])
       content = html.to_s
